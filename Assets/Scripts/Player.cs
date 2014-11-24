@@ -15,9 +15,14 @@ public class Player : MonoBehaviour {
 
 	public float maxverticalspeed = 5.0f;
 	public float maxhorizontalspeed = 4.0f;
+	public float maxshottimer = 5.0f;
+	
+	public GameObject bullet;
 
 	private Transform turret1;
 	private Transform turret2;
+
+	private float shottimer = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -27,13 +32,27 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		shottimer += Time.deltaTime;
+		if(Input.GetMouseButton(0))
+		{
+			shootBullet();
+		}
 	}
 
 	void FixedUpdate()
 	{
 		Movement ();
 		Turret ();
+	}
+
+	void shootBullet()
+	{
+		if(shottimer >= maxshottimer)
+		{
+			Instantiate(bullet, new Vector3(turret1.position.x,turret1.position.y,turret1.position.z),turret1.rotation);
+			Instantiate(bullet, new Vector3(turret2.position.x,turret2.position.y,turret2.position.z),turret2.rotation);
+			shottimer = 0.0f;
+		}
 	}
 
 	void Movement()
