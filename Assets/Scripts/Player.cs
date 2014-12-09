@@ -37,6 +37,10 @@ public class Player : MonoBehaviour {
 		{
 			shootBullet();
 		}
+
+		if (health <= 0){
+			//Destroy(gameObject);
+		}
 	}
 
 	void FixedUpdate()

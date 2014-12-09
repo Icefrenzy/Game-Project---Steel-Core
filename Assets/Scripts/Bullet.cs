@@ -32,9 +32,16 @@ public class Bullet : MonoBehaviour {
 		}
 	}
 
+	void OnTriggerEnter2D(Collider2D collision){
+
+		if (collision.gameObject.name == "Enemy 1"){
+			Destroy(gameObject);
+		}
+	}
+
 	void OnCollisionEnter2D(Collision2D collision)
 	{
-
+		//Destroy(gameObject);
 	}
 
 
