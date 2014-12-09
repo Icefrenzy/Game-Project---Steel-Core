@@ -39,7 +39,8 @@ public class Player : MonoBehaviour {
 		}
 
 		if (health <= 0){
-			//Destroy(gameObject);
+			Destroy(gameObject);
+			Application.LoadLevel("MainMenu");
 		}
 	}
 
@@ -56,6 +57,15 @@ public class Player : MonoBehaviour {
 			Instantiate(bullet, new Vector3(turret1.position.x,turret1.position.y,turret1.position.z),turret1.rotation);
 			Instantiate(bullet, new Vector3(turret2.position.x,turret2.position.y,turret2.position.z),turret2.rotation);
 			shottimer = 0.0f;
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D collision){
+
+		print (collision.gameObject.tag);
+		if (collision.gameObject.tag == "Enemybullet"){
+			print ("U WOT?");
+			health -= 10;
 		}
 	}
 

@@ -26,12 +26,13 @@ public class Enemy1 : MonoBehaviour {
 		if (health <= 0){
 			Destroy(gameObject);
 		}
+		moveToPoint();
 	}
 
 	void FixedUpdate(){
 		TurretMove();
 		ShootBullet();
-		//moveToPoint();
+
 	}
 
 	void ShootBullet(){
@@ -55,8 +56,19 @@ public class Enemy1 : MonoBehaviour {
 			playerPos - turret.transform.position);
 	}
 
-	/*void moveToPoint(){
-		gameObject.transform.Translate(Vector3.forward
-		                               * 1.0f * Time.deltaTime);
-	}*/
+	void moveToPoint(){
+
+		if (Vector2.Distance(transform.position, shootpoint.transform.position) > 0.1f){
+			Vector3 distance = transform.position - shootpoint.transform.position;
+			distance.Normalize();
+
+			transform.Translate(
+				(distance.x * 1.0f * Time.deltaTime),
+				(distance.y * 1.0f * Time.deltaTime),
+				0, Space.World);
+		}
+		//transform.position = Vector3.Lerp(transform.position, shootpoint.transform.position, 2.0f);
+		//gameObject.transform.rotation = Quaternion.LookRotation (shootpoint.transform.position);
+		//gameObject.transform.Translate(Vector3.forward* 1.0f * Time.deltaTime);
+	}
 }
