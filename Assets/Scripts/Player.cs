@@ -40,7 +40,7 @@ public class Player : MonoBehaviour {
 
 		if (health <= 0){
 			Destroy(gameObject);
-			Application.LoadLevel("MainMenu");
+			Application.LoadLevel("GameOver");
 		}
 	}
 

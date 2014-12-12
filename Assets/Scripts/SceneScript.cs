@@ -16,4 +16,8 @@ public class SceneScript : MonoBehaviour {
 	public void StartGame(){
 		Application.LoadLevel("Stage1");
 	}
+
+	public void MainMenu(){
+		Application.LoadLevel("MainMenu");
+	}
 }

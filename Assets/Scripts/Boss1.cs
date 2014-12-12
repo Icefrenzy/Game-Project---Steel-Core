@@ -4,7 +4,7 @@ using System.Collections;
 public class Boss1 : MonoBehaviour {
 	public GameObject player, bullet;
 	
-	Transform turret, aperture;
+	Transform joint, turret, aperture;
 	
 	private bool canShoot = false;
 	
@@ -12,12 +12,13 @@ public class Boss1 : MonoBehaviour {
 	private float bulletTimer;
 	private float bulletLife = 1.0f;
 	
-	private int health = 800;
+	private int health = 500;
 	
 	// Use this for initialization
 	void Start () {
-		turret = gameObject.transform.FindChild("Boss Turret");
-		aperture = turret.gameObject.transform.FindChild("Aperture");
+		joint = gameObject.transform.FindChild("Turret Joint");
+		turret = joint.FindChild("Boss Turret");
+		aperture = turret.FindChild("Aperture");
 	}
 	
 	// Update is called once per frame
@@ -25,8 +26,9 @@ public class Boss1 : MonoBehaviour {
 		bulletTimer += Time.deltaTime;
 		if (health <= 0){
 			Destroy(gameObject);
+			Application.LoadLevel("Stage2");
 		}
-		//moveToPoint();
+		moveToPoint();
 	}
 	
 	void FixedUpdate(){
@@ -36,8 +38,8 @@ public class Boss1 : MonoBehaviour {
 	}
 	
 	void ShootBullet(){
-		if (bulletTimer >= bulletLife && canShoot == true){
-			Instantiate(bullet, aperture.position, turret.rotation);
+		if (bulletTimer >= bulletLife){
+			Instantiate(bullet, aperture.position, joint.rotation);
 			bulletTimer = 0.0f;
 		}
 	}
@@ -45,30 +47,24 @@ public class Boss1 : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collision){
 		if (collision.gameObject.tag == "Bullet"){
 			print ("sdfsf");
-			health -= 5;
+			health -= 10;
 		}
 		
 	}
 	
 	void TurretMove(){
 		Vector3 playerPos = player.transform.position;
-		turret.transform.rotation = Quaternion.LookRotation (Vector3.forward, 
-		                                                     playerPos - turret.transform.position);
+		joint.transform.rotation = Quaternion.LookRotation (Vector3.forward, 
+		                                                     playerPos - joint.transform.position);
 	}
 	
 	void moveToPoint(){
-		
-		/*if (Vector2.Distance(transform.position, shootpoint.transform.position) > 0.1f){
-			Vector3 distance = transform.position - shootpoint.transform.position;
-			distance.Normalize();
-			
-			transform.Translate(
-				(distance.x * 1.0f * Time.deltaTime),
-				(distance.y * 1.0f * Time.deltaTime),
-				0, Space.World);
-		}*/
-		//transform.position = Vector3.Lerp(transform.position, shootpoint.transform.position, 2.0f);
-		//gameObject.transform.rotation = Quaternion.LookRotation (shootpoint.transform.position);
-		//gameObject.transform.Translate(Vector3.forward* 1.0f * Time.deltaTime);
+		if (transform.position.x < 0.0f){
+			transform.position += new Vector3(Time.deltaTime * 0.7f,  0.0f, 0.0f);
+		}
+		else {
+			canShoot = true;
+		}
+
 	}
 }

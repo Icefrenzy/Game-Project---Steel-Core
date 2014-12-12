@@ -36,11 +36,13 @@ public class Enemy1 : MonoBehaviour {
 	}
 
 	void ShootBullet(){
-		if (bulletTimer >= bulletLife){
+		if (bulletTimer >= bulletLife && canShoot == true){
 			Instantiate(bullet, turret.position, turret.rotation);
 			bulletTimer = 0.0f;
 		}
 	}
+
+
 
 	void OnTriggerEnter2D(Collider2D collision){
 		if (collision.gameObject.tag == "Bullet"){
@@ -58,17 +60,11 @@ public class Enemy1 : MonoBehaviour {
 
 	void moveToPoint(){
 
-		if (Vector2.Distance(transform.position, shootpoint.transform.position) > 0.1f){
-			Vector3 distance = transform.position - shootpoint.transform.position;
-			distance.Normalize();
-
-			transform.Translate(
-				(distance.x * 1.0f * Time.deltaTime),
-				(distance.y * 1.0f * Time.deltaTime),
-				0, Space.World);
+		if (transform.position.y > 2.5f){
+			transform.position -= new Vector3(0.0f, Time.deltaTime * 0.7f, 0.0f);
 		}
-		//transform.position = Vector3.Lerp(transform.position, shootpoint.transform.position, 2.0f);
-		//gameObject.transform.rotation = Quaternion.LookRotation (shootpoint.transform.position);
-		//gameObject.transform.Translate(Vector3.forward* 1.0f * Time.deltaTime);
+		else {
+			canShoot = true;
+		}
 	}
 }
